@@ -16,6 +16,25 @@ function eventDrops(config = {}) {
             .domain(data.map(d => d.name))
             .range(data.map((d, i) => i * finalConfiguration.lineHeight));
 
+    var yDataScaleMapping = {};
+    const yDataScale = data => {
+        data.forEach(function(d) {
+            yDataScaleMapping[d.name] = d3
+                .scaleLinear()
+                .domain([
+                    0,
+                    d3.max(d.data, function(o) {
+                        return o.value;
+                    }),
+                ])
+                .range([
+                    finalConfiguration.lineHeight - finalConfiguration.radius,
+                    finalConfiguration.radius,
+                ]);
+        });
+        return yDataScaleMapping;
+    };
+
     const xScale = (width, timeBounds) =>
         d3.scaleTime().domain(timeBounds).range([0, width]);
 
@@ -28,6 +47,7 @@ function eventDrops(config = {}) {
                 [configuration.start, configuration.end]
             ),
             y: yScale(data),
+            yData: yDataScale(data),
         };
     }
 

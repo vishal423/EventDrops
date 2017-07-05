@@ -17,9 +17,12 @@ export default (container, scales, configuration) =>
             .enter()
             .append('circle')
             .classed('drop', true)
-            .attr('r', 5)
+            .attr('r', configuration.radius)
             .attr('cx', d => scales.x(configuration.date(d)))
-            .attr('cy', configuration.lineHeight / 2)
+            .attr('cy', (d, idx, nodes, currentNode) => {
+               var series = d3.select(nodes[idx].parentNode).datum().name;
+               return scales.yData[series](configuration.data(d.value));
+            })
             .attr('fill', configuration.eventColor)
             .on('click', configuration.click)
             .on('mouseover', configuration.mouseover)

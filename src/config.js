@@ -46,12 +46,14 @@ const config = {
     click: () => {},
     hasDelimiter: true,
     date: d => d,
+    data: d => parseFloat(d),
     hasTopAxis: true,
     hasBottomAxis: d => d.length >= 10,
     eventLineColor: 'black',
     eventColor: null,
     metaballs: true,
     zoomable: true,
+    radius: 3,
 };
 
 config.dateFormat = config.locale
